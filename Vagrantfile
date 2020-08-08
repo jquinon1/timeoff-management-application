@@ -19,4 +19,11 @@ Vagrant.configure("2") do |config|
     app.vm.network "forwarded_port", guest: 443, host: 443
     app.vm.network "forwarded_port", guest: 22, host: 2223
   end
+  # Common configuration
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.cpus = 2
+  end
+  config.vm.provision "file", source: "gorilla.pub", destination: "~/.ssh/gorilla.pub"
+  config.vm.provision "shell", inline: "cat /home/vagrant/.ssh/gorilla.pub >> /home/vagrant/.ssh/authorized_keys"
 end
