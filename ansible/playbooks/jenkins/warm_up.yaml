@@ -1,0 +1,8 @@
+---
+- name: Installing java and jenkins
+  hosts: jenkins
+  gather_facts: true
+  become: true
+  roles:
+    - java
+    - jenkins
