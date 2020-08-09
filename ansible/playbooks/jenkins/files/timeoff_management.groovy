@@ -22,6 +22,9 @@ pipelineJob("${application_name}-pipeline"){
             // credentials("${application_credentials_id}")
             branch("origin/master")
           }
+          extensions {
+            wipeOutWorkspace()
+          }
         }
       }
       scriptPath("Jenkinsfile")
