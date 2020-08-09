@@ -4,7 +4,9 @@ def application_credentials_id = "ssh_key"
 pipelineJob("${application_name}-CI"){
   description "Continous integration job for ${application_name} app"
   triggers {
-    githubPush()
+    scm('* * * * *') {
+      ignorePostCommitHooks()
+    }
   }
   definition{
     cpsScm{
