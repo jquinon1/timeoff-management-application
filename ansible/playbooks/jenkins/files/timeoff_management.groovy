@@ -1,9 +1,9 @@
 def application_name = "timeoff-management"
-def application_repository = "git@github.com:jquinon1/timeoff-management-application.git"
-def application_credentials_id = "ssh_key"
+def application_repository = "https://github.com/jquinon1/timeoff-management-application"
+// def application_credentials_id = "ssh_key"
 def registry_addr = "http://192.168.50.20:5000"
-pipelineJob("${application_name}-CI"){
-  description "Continous integration job for ${application_name} app"
+pipelineJob("${application_name}-pipeline"){
+  description "Whole CI/CD pipeline for ${application_name} app"
   environmentVariables {
     env('REGISTRY_ADDR', registry_addr)
     keepBuildVariables(true)
@@ -19,7 +19,7 @@ pipelineJob("${application_name}-CI"){
         git{
           remote {
             url("${application_repository}")
-            credentials("${application_credentials_id}")
+            // credentials("${application_credentials_id}")
             branch("origin/master")
           }
         }
