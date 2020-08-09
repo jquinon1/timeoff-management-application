@@ -1,0 +1,49 @@
+---
+- name: Installing java and jenkins
+  hosts: jenkins
+  gather_facts: true
+  become: true
+  roles:
+    # - java
+    # - jenkins
+  tasks:
+
+    - name: Installing git package
+      package:
+        name: git
+        state: present
+
+    - name: Copy script template to create ssh keys
+      template:
+        src: add_ssh_key.groovy.j2
+        dest: "{{ jenkins_home }}/init.groovy.d/add_ssh_keys.groovy"
+        owner: "{{ jenkins_process_user }}"
+        group: "{{ jenkins_process_group }}"
+        mode: 0775
+      vars:
+        - private_key: "{{ lookup('file', '{{ inventory_dir }}/../../gorilla') }}"
+
+    - name: Create folder to store jenkins scripts
+      file:
+        path: /opt/jenkins/scripts
+        state: directory
+        owner: "{{ jenkins_process_user }}"
+        group: "{{ jenkins_process_group }}"
+
+    - name: Copy groovy script
+      copy:
+        src: "{{ item.file }}"
+        dest: "{{ item.path }}"
+        owner: "{{ jenkins_process_user }}"
+        group: "{{ jenkins_process_group }}"
+        mode: 0775
+      with_items:
+        - file: seed.groovy
+          path: "{{ jenkins_home }}/init.groovy.d/seed_job.groovy"
+        - file: seed_job.groovy
+          path: /opt/jenkins/scripts/seed_job.groovy
+
+    - name: restart jenkins
+      service:
+        name: jenkins
+        state: restarted

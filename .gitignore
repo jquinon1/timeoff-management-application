@@ -7,3 +7,4 @@ node_modules/
 *.sqlite
 .vagrant
 gorilla*
+.vault_password

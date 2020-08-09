@@ -1,0 +1,16 @@
+jenkins_url: "http://localhost:8080"
+jenkins_home: /var/lib/jenkins
+jenkins_process_user: jenkins
+jenkins_process_group: "{{ jenkins_process_user }}"
+jenkins_admin_username: admin
+jenkins_admin_password: "{{ encrypted_jenkins_admin_password }}"
+jenkins_plugins_install_dependencies: true
+jenkins_plugins_state: present
+jenkins_plugins:
+  - name: git-parameter
+  - name: envinject
+  - name: ansible
+  - name: ansicolor
+  - name: workflow-aggregator
+  - name: job-dsl
+  - name: github
