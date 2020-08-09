@@ -15,6 +15,11 @@
     groups: docker
     name: "{{ jenkins_process_user }}"
 
+- name: Add local regitry to the list of insecure allowed registries
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+
 - name: Restarting docker service
   service:
     name: docker
