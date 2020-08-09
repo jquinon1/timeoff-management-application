@@ -34,5 +34,4 @@ WORKDIR /app
 COPY . .
 
 RUN npm install
-RUN npm run-script db-update
 CMD npm start
