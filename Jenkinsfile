@@ -1,5 +1,5 @@
 node{
   stage('test') {
-    println "Test message"
+    println "Test message 1 2 3"
   }
 }
