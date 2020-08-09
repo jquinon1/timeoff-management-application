@@ -1,0 +1,21 @@
+---
+- name: Deploy timeoff-management application
+  hosts: appserver
+  gather_facts: true
+  become: true
+  vars:
+    regitry_addr: "192.168.50.20:5000/"
+  tasks:
+    - debug:
+        msg: "{{ regitry_addr | default('') }}timeoff-management:{{ docker_image_version | default('latest') }}"
+
+    - name: Run timeoff management container
+      docker_container:
+        image: "{{ regitry_addr | default('') }}timeoff-management:{{ docker_image_version | default('latest') }}"
+        name: timeoff-management
+        state: started
+        restart: true
+        restart_policy: always
+        pull: true
+        published_ports:
+          - 80:3000

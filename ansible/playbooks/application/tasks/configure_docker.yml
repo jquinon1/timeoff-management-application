@@ -1,0 +1,21 @@
+- name: Starting and enabling docker service
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Create docker group
+  group:
+    name: docker
+    state: present
+
+- name: Add local regitry to the list of insecure allowed registries
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+
+- name: Restarting docker service
+  service:
+    name: docker
+    state: restarted
+    enabled: true

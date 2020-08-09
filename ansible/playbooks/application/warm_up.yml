@@ -1,0 +1,17 @@
+---
+- name: Installing java and jenkins
+  hosts: appserver
+  gather_facts: true
+  become: true
+  tasks:
+
+    - name: Installing needed packages
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - git
+        - docker
+        - python-docker-py
+
+    - include_tasks: tasks/configure_docker.yml
