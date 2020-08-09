@@ -1,0 +1,17 @@
+---
+- name: Configure local docker registry
+  hosts: registry
+  become: true
+  gather_facts: true
+  tasks:
+
+    - name: Run dokcer registry container
+      docker_container:
+        image: registry:2
+        name: registry
+        state: started
+        restart: yes
+        restart_policy: always
+        network_mode: host
+        env:
+          REGISTRY_HTTP_ADDR: 0.0.0.0:5000

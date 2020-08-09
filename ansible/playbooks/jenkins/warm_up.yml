@@ -8,10 +8,20 @@
     - jenkins
   tasks:
 
-    - name: Installing git package
+    - name: Installing needed packages
       package:
-        name: git
+        name: "{{ item }}"
         state: present
+      with_items:
+        - git
+        - docker
+        - python-docker-py
+
+    - name: Starting and enabling docker service
+      service:
+        name: docker
+        state: started
+        enabled: true
 
     - name: Copy script template to create ssh keys
       template:

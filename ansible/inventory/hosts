@@ -3,3 +3,6 @@ jenkins
 
 [appserver]
 appserver
+
+[registry]
+jenkins

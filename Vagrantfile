@@ -8,6 +8,7 @@ Vagrant.configure("2") do |config|
     app.vm.hostname = "jenkins"
     app.vm.network "private_network", ip: "192.168.50.20"
     app.vm.network "forwarded_port", guest: 8080, host: 8080
+    app.vm.network "forwarded_port", guest: 5000, host: 5000
     app.vm.network "forwarded_port", guest: 22, host: 2222
   end
   # Provision app server
