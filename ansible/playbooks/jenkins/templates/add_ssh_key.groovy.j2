@@ -19,10 +19,10 @@ privateKey = new BasicSSHUserPrivateKey.DirectEntryPrivateKeySource(
 sshKey = new BasicSSHUserPrivateKey(
   CredentialsScope.GLOBAL,
   "ssh_key",
-  "git",
+  "appserver",
   privateKey,
   "",
-  "SSH key to pull the git repo by ssh"
+  "SSH key to connect to appserver"
 )
 
 store.addCredentials(domain, sshKey)
