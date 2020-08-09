@@ -1,0 +1,22 @@
+- name: Starting and enabling docker service
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Create docker group
+  group:
+    name: docker
+    state: present
+
+- name: Add jenkins user to docker group
+  user:
+    append: true
+    groups: docker
+    name: "{{ jenkins_process_user }}"
+
+- name: Restarting docker service
+  service:
+    name: docker
+    state: restarted
+    enabled: true

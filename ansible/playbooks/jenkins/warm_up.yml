@@ -17,11 +17,7 @@
         - docker
         - python-docker-py
 
-    - name: Starting and enabling docker service
-      service:
-        name: docker
-        state: started
-        enabled: true
+    - include_tasks: tasks/configure_docker.yml
 
     - name: Copy script template to create ssh keys
       template:
