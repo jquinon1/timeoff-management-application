@@ -8,3 +8,4 @@ node_modules/
 .vagrant
 gorilla*
 .vault_password
+*.retry
