@@ -5,6 +5,7 @@ Web application for managing employee absences.
 
 <a href="https://travis-ci.org/timeoff-management/timeoff-management-application"><img align="right" src="https://travis-ci.org/timeoff-management/timeoff-management-application.svg?branch=master" alt="Build status" /></a>
 
+
 ## Features
 
 **Multiple views of staff absences**
@@ -126,4 +127,3 @@ npm start
 ## Feedback
 
 Please report any issues or feedback to <a href="https://twitter.com/FreeTimeOffApp">twitter</a> or Email: pavlo at timeoff.management
-
