@@ -13,7 +13,7 @@ job("create-${application_name}-jobs"){
   }
   steps {
     dsl {
-      external("ansible/playbooks/jenkins/files/timeoff-management.groovy")
+      external("ansible/playbooks/jenkins/files/timeoff_management.groovy")
       removeAction('IGNORE')
       removeViewAction('IGNORE')
     }
