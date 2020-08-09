@@ -1,5 +1,10 @@
+def regitry_url = REGISTRY_ADDR
+def default_image_tag = "latest"
 node{
-  stage('test') {
-    println "Test message 1 2 3 4"
+  stage('Build and push image') {
+    docker.withRegistry(regitry_url) {
+      def customImage = docker.build("timeoff-management:${default_image_tag}")
+      customImage.push()
+    }
   }
 }
