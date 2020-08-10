@@ -1,0 +1,5 @@
+ansible
+ansible.cfg
+Dockerfile
+Jenkinsfile
+Vagrantfile
