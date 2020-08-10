@@ -1,129 +1,60 @@
 
-# TimeOff.Management 1..2..3..4
+# Architectural view
 
-Web application for managing employee absences.
+![archictetural view](https://raw.githubusercontent.com/timeoff-management/application/master/public/img/timeoff-management.png)
 
-<a href="https://travis-ci.org/timeoff-management/timeoff-management-application"><img align="right" src="https://travis-ci.org/timeoff-management/timeoff-management-application.svg?branch=master" alt="Build status" /></a>
+# Requirements
+
+- python v2.7
+- ansible v2.8+
+- vagrant v2.5+
+- virualBox v5.2+
 
 
-## Features
+# Local Setup
 
-**Multiple views of staff absences**
+## Create SSH key
 
-Calendar view, Team view, or Just plain list.
+In order to access the server you will to create you need to execute this command from the root folder of the project to create the ssh key-pair
 
-**Tune application to fit into your company policy**
-
-Add custom absence types: Sickness, Maternity, Working from home, Birthday etc. Define if each uses vacation allowance.
-
-Optionally limit the amount of days employees can take for each Leave type. E.g. no more than 10 Sick days per year.
-
-Setup public holidays as well as company specific days off.
-
-Group employees by departments: bring your organisational structure, set the supervisor for every department.
-
-Customisable working schedule for company and individuals.
-
-**Third Party Calendar Integration**
-
-Broadcast employee whereabouts into external calendar providers: MS Outlook, Google Calendar, and iCal.
-
-Create calendar feeds for individuals, departments or entire company.
-
-**Three Steps Workflow**
-
-Employee requests time off or revokes existing one.
-
-Supervisor gets email notification and decides about upcoming employee absence.
-
-Absence is accounted. Peers are informed via team view or calendar feeds.
-
-**Access control**
-
-There are following types of users: employees, supervisors, and administrators.
-
-Optional LDAP authentication: configure application to use your LDAP server for user authentication.
-
-**Ability to extract leave data into CSV**
-
-Ability to back up entire company leave data into CSV file. So it could be used in any spreadsheet applications.
-
-**Works on mobile phones**
-
-The most used customer paths are mobile friendly:
-
-* employee is able to request new leave from mobile device
-
-* supervisor is able to record decision from the mobile as well.
-
-**Lots of other little things that would make life easier**
-
-Manually adjust employee allowances
-e.g. employee has extra day in lieu.
-
-Upon creation employee receives pro-rated vacation allowance, depending on start date.
-
-Email notification to all involved parties.
-
-Optionally allow employees to see the time off information of entire company regardless of department structure.
-
-## Screenshots
-
-![TimeOff.Management Screenshot](https://raw.githubusercontent.com/timeoff-management/application/master/public/img/readme_screenshot.png)
-
-## Installation
-
-### Cloud hosting
-
-Visit http://timeoff.management/
-
-Create company account and use cloud based version.
-
-### Self hosting
-
-Install TimeOff.Management application within your infrastructure:
-
-(make sure you have Node.js (>=4.0.0) and SQLite installed)
-
-```bash
-git clone https://github.com/timeoff-management/application.git timeoff-management
-cd timeoff-management
-npm install
-npm start
+```sh
+$ ssh-keygen -t rsa -b 4096 -C "demo-gorilla" -f gorilla
 ```
-Open http://localhost:3000/ in your browser.
+**note: when the command asks for the passphrase just press enter**
 
-## Run tests
+## Store the Ansible Vault password
 
-We have quite a wide test coverage, to make sure that the main user paths work as expected.
+This repository uses ansible vault to encrypt sensible data. To avoid errors when running the playbooks store the ansible vault password in a file called **.vault_password** in the root folder of the project
 
-Please run them frequently while developing the project.
-
-Make sure you have Chrome driver installed in your path and Chrome browser for your platform.
-
-If you want to see the browser execute the interactions prefix with `SHOW_CHROME=1`
-
-```bash
-USE_CHROME=1 npm test
+```sh
+$ echo "PASSWORD" > .vault_password
 ```
 
-(make sure that application with default settings is up and running)
+## Create the virtaul machines
 
-Any bug fixes or enhancements should have good test coverage to get them into "master" branch.
+The solution consists of 2 virtual machines, 1 is used to run Jenkins and the docker registry and the second is used to run the application.
 
-## Updating existing instance with new code
+To provision these machines run this command from the root folder
 
-In case one needs to patch existing instance of TimeOff.Managenent application with new version:
-
-```bash
-git fetch
-git pull origin master
-npm install
-npm run-script db-update
-npm start
+```sh
+$ vagrant up
 ```
 
+## Configure the servers
 
-## Feedback
+Once the previous command finishes we will have useless servers as they are not configured. To configure them execute the following commands from the root foler.
 
-Please report any issues or feedback to <a href="https://twitter.com/FreeTimeOffApp">twitter</a> or Email: pavlo at timeoff.management
+```sh
+# This command will configure Jenkins
+$ ansible-playbook -i ansible/inventory ansible/playbooks/jenkins/warm_up.yml --vault-password-file .vault_password
+# This command will configure the application server
+$ ansible-playbook -i ansible/inventory ansible/playbooks/application/warm_up.yml --vault-password-file .vault_password
+# This command will configure the docker registry
+$ ansible-playbook -i ansible/inventory ansible/playbooks/application/warm_up.yml --vault-password-file .vault_password
+```
+
+## Final steps
+
+At this moment we are almost done. Now the last step is to login into jenkins, which is listening in either **localhost:8080** or **192.168.50.20:8080**, and execute the only one existing job called **create-timeoff-management-pipeline**. This job will create the pipeline job needed to build and deploy the application.
+
+**note: It is possible that the first execution of the create-timeoff-management-job fails because Jenkins needs to approved the DSL script in order to execute it. To approve it go to Manage Jenkins > Security > In-process Script Approval and approve the DSL script**
