@@ -1,0 +1,10 @@
+- name: Install epel repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install Ansible.
+  yum:
+    name: ansible
+    state: present
+    enablerepo: epel

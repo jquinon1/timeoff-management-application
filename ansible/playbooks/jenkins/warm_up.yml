@@ -18,16 +18,18 @@
         - python-docker-py
 
     - include_tasks: tasks/configure_docker.yml
+    - include_tasks: tasks/install_ansible.yml
 
     - name: Copy script template to create ssh keys
       template:
-        src: add_ssh_key.groovy.j2
+        src: add_secrets.groovy.j2
         dest: "{{ jenkins_home }}/init.groovy.d/add_ssh_keys.groovy"
         owner: "{{ jenkins_process_user }}"
         group: "{{ jenkins_process_group }}"
         mode: 0775
       vars:
         - private_key: "{{ lookup('file', '{{ inventory_dir }}/../../gorilla') }}"
+        - vault_password: "{{lookup('file', '{{ inventory_dir}}/../../.vault_password') }}"
 
     - name: Create folder to store jenkins scripts
       file:
