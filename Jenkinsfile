@@ -15,6 +15,7 @@ node{
   stage('Deploy application') {
     withCredentials([sshUserPrivateKey(credentialsId: ssh_credentials_id, keyFileVariable: 'ssh_key_file')]) {
       sh "cat ${ssh_key_file} > gorilla"
+      sh "chmod 0400 gorilla"
       ansiblePlaybook(
         playbook: "ansible/playbooks/application/deploy_app.yml",
         inventory: "ansible/inventory",
