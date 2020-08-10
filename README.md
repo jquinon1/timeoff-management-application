@@ -1,7 +1,7 @@
 
 # Architectural view
 
-![archictetural view](https://raw.githubusercontent.com/timeoff-management/application/master/public/img/timeoff-management.png)
+![archictetural view](https://github.com/jquinon1/timeoff-management-application/blob/master/public/img/timeoff-management.png)
 
 # Requirements
 
@@ -20,7 +20,7 @@ In order to access the server you will to create you need to execute this comman
 ```sh
 $ ssh-keygen -t rsa -b 4096 -C "demo-gorilla" -f gorilla
 ```
-**note: when the command asks for the passphrase just press enter**
+**NOTE: when the command asks for the passphrase just press enter**
 
 ## Store the Ansible Vault password
 
@@ -57,4 +57,4 @@ $ ansible-playbook -i ansible/inventory ansible/playbooks/application/warm_up.ym
 
 At this moment we are almost done. Now the last step is to login into jenkins, which is listening in either **localhost:8080** or **192.168.50.20:8080**, and execute the only one existing job called **create-timeoff-management-pipeline**. This job will create the pipeline job needed to build and deploy the application.
 
-**note: It is possible that the first execution of the create-timeoff-management-job fails because Jenkins needs to approved the DSL script in order to execute it. To approve it go to Manage Jenkins > Security > In-process Script Approval and approve the DSL script**
+**NOTE: It is possible that the first execution of the create-timeoff-management-job fails because Jenkins needs to approved the DSL script in order to execute it. To approve it go to Manage Jenkins > Security > In-process Script Approval and approve the DSL script**
