@@ -1,6 +1,5 @@
 # FORKED FROM https://github.com/timeoff-management/timeoff-management-application
 
-
 # TimeOff.Management
 
 Web application for managing employee absences.
