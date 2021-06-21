@@ -1,0 +1,6 @@
+[
+  {
+    "name": "timeoff-management",
+    "imageUri": "651144116335.dkr.ecr.us-east-1.amazonaws.com/dev-timeoff-management:latest"
+  }
+]
